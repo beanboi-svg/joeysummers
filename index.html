@@ -51,12 +51,8 @@
                 </label>
             </div>
             <label>
-                <span>Email</span>
-                <input type="email" name="email" autocomplete="email" required>
-            </label>
-            <label>
                 <span>Phone</span>
-                <input type="tel" name="phone" autocomplete="tel" required>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567" maxlength="14" pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}" required>
             </label>
             <p class="rsvp-error" aria-live="polite"></p>
             <button class="button" type="submit">Submit RSVP</button>
@@ -71,6 +67,21 @@
         const rsvpError = document.querySelector('.rsvp-error');
         const openRsvpButton = document.querySelector('[data-open-rsvp]');
         const closeRsvpButton = document.querySelector('[data-close-rsvp]');
+        const phoneField = rsvpForm.elements.phone;
+
+        const formatPhoneNumber = (value) => {
+            const digits = value.replace(/\D/g, '').slice(0, 10);
+
+            if (digits.length < 4) {
+                return digits;
+            }
+
+            if (digits.length < 7) {
+                return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+            }
+
+            return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+        };
 
         openRsvpButton.addEventListener('click', () => {
             rsvpDialog.showModal();
@@ -94,22 +105,28 @@
             }
         });
 
+        phoneField.addEventListener('input', () => {
+            phoneField.value = formatPhoneNumber(phoneField.value);
+        });
+
         rsvpForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            const invalidField = Array.from(rsvpForm.elements).find((field) => {
-                return field.matches && field.matches('input') && !field.validity.valid;
-            });
+            const firstNameField = rsvpForm.elements['first-name'];
+            const lastNameField = rsvpForm.elements['last-name'];
 
             rsvpForm.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
                 field.removeAttribute('aria-invalid');
             });
 
+            const invalidField = [firstNameField, lastNameField, phoneField].find((field) => {
+                return !field.validity.valid;
+            });
+
             if (invalidField) {
                 invalidField.setAttribute('aria-invalid', 'true');
-                rsvpError.textContent = 'Please complete each field before submitting.';
+                rsvpError.textContent = 'Please complete your name and enter a 10-digit phone number.';
                 invalidField.focus();
-                return;
             }
         });
     </script>
