@@ -147,6 +147,22 @@
                 invalidField.setAttribute('aria-invalid', 'true');
                 rsvpError.textContent = 'Please complete your name and enter a 10-digit phone number.';
                 invalidField.focus();
+            } else {
+                const toSend = {
+                    firstName: firstNameField.value,
+                    lastName: lastNameField.value,
+                    phone: phoneField.value,
+                    guestCount: guestCountField.value,
+                };
+
+                fetch("https://of73u4pjsfywnjpqrib4n37q5a0nmffb.lambda-url.us-east-1.on.aws", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(toSend)
+                });
             }
         });
     </script>
