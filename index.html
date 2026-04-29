@@ -19,7 +19,7 @@
                     <h1>Graduating from Frederick High School, Joseph Summers invites you to his graduation celebration with friends.</h1>
                 </div>
                 <div class="button-wrap" aria-label="Graduation celebration actions">
-                    <a class="button" href="#">RSVP</a>
+                    <button class="button" type="button" data-open-rsvp>RSVP</button>
                     <details class="calendar-menu">
                         <summary class="button secondary">Add to Calendar</summary>
                         <div class="calendar-options">
@@ -34,8 +34,84 @@
             </div>
         </div>
     </div>
+    <dialog class="rsvp-dialog" aria-labelledby="rsvp-title">
+        <form class="rsvp-form" action="#" method="post" novalidate>
+            <div class="rsvp-header">
+                <h2 id="rsvp-title">RSVP</h2>
+                <button class="dialog-close" type="button" aria-label="Close RSVP form" data-close-rsvp>&times;</button>
+            </div>
+            <div class="rsvp-row">
+                <label>
+                    <span>First name</span>
+                    <input type="text" name="first-name" autocomplete="given-name" required>
+                </label>
+                <label>
+                    <span>Last name</span>
+                    <input type="text" name="last-name" autocomplete="family-name" required>
+                </label>
+            </div>
+            <label>
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>
+                <span>Phone</span>
+                <input type="tel" name="phone" autocomplete="tel" required>
+            </label>
+            <p class="rsvp-error" aria-live="polite"></p>
+            <button class="button" type="submit">Submit RSVP</button>
+        </form>
+    </dialog>
     <footer class="footer">
         <p>Joseph Summers</p>
     </footer>
+    <script>
+        const rsvpDialog = document.querySelector('.rsvp-dialog');
+        const rsvpForm = document.querySelector('.rsvp-form');
+        const rsvpError = document.querySelector('.rsvp-error');
+        const openRsvpButton = document.querySelector('[data-open-rsvp]');
+        const closeRsvpButton = document.querySelector('[data-close-rsvp]');
+
+        openRsvpButton.addEventListener('click', () => {
+            rsvpDialog.showModal();
+            rsvpDialog.querySelector('input').focus();
+        });
+
+        closeRsvpButton.addEventListener('click', () => {
+            rsvpDialog.close();
+        });
+
+        rsvpDialog.addEventListener('click', (event) => {
+            if (event.target === rsvpDialog) {
+                rsvpDialog.close();
+            }
+        });
+
+        rsvpForm.addEventListener('input', (event) => {
+            if (event.target.matches('input')) {
+                event.target.removeAttribute('aria-invalid');
+                rsvpError.textContent = '';
+            }
+        });
+
+        rsvpForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const invalidField = Array.from(rsvpForm.elements).find((field) => {
+                return field.matches && field.matches('input') && !field.validity.valid;
+            });
+
+            rsvpForm.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
+                field.removeAttribute('aria-invalid');
+            });
+
+            if (invalidField) {
+                invalidField.setAttribute('aria-invalid', 'true');
+                rsvpError.textContent = 'Please complete each field before submitting.';
+                invalidField.focus();
+                return;
+            }
+        });
+    </script>
 </body>
 </html>
