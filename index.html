@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- YES, THIS WAS CUSTOM CODED BY ME! I DIDN'T USE A TEMPLATE! -->
+<!-- YES, THIS WAS CUSTOM CODED BY ME_! I DIDN'T USE A TEMPLATE! -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,6 +77,12 @@
             <button class="button" type="submit">Submit RSVP</button>
         </form>
     </dialog>
+    <dialog class="rsvpd-dialog" aria-labelledby="rsvpd-title">
+        <div class="rsvp-header">
+            <h2 id="rsvpd-title">You're RSVPd!</h2>
+            <button class="dialog-close" type="button" aria-label="Close" data-close-rsvpd>&times;</button>
+        </div>
+    </dialog>
     <footer class="footer">
         <p>Made Custom by Joseph Summers</p>
     </footer>
@@ -87,6 +93,9 @@
         const openRsvpButton = document.querySelector('[data-open-rsvp]');
         const closeRsvpButton = document.querySelector('[data-close-rsvp]');
         const phoneField = rsvpForm.elements.phone;
+
+        const rsvpdDialog = document.querySelector('.rsvpd-dialog');
+        const closeRsvpdButton = document.querySelector('[data-close-rsvpd]');
 
         const formatPhoneNumber = (value) => {
             const digits = value.replace(/\D/g, '').slice(0, 10);
@@ -101,6 +110,8 @@
 
             return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
         };
+
+        const isRsvpd = () => document.cookie.includes('rsvpd=true');
 
         openRsvpButton.addEventListener('click', () => {
             rsvpDialog.showModal();
@@ -117,6 +128,16 @@
             }
         });
 
+        closeRsvpdButton.addEventListener('click', () => {
+            rsvpdDialog.close();
+        });
+
+        rsvpdDialog.addEventListener('click', (event) => {
+            if (event.target === rsvpdDialog) {
+                rsvpdDialog.close();
+            }
+        });
+
         rsvpForm.addEventListener('input', (event) => {
             if (event.target.matches('input')) {
                 event.target.removeAttribute('aria-invalid');
@@ -127,6 +148,11 @@
         phoneField.addEventListener('input', () => {
             phoneField.value = formatPhoneNumber(phoneField.value);
         });
+
+        if (isRsvpd()) {
+            openRsvpButton.disabled = true;
+            rsvpdDialog.showModal();
+        }
 
         rsvpForm.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -163,6 +189,10 @@
                     },
                     body: JSON.stringify(toSend)
                 });
+
+                document.cookie = "rsvpd=true; max-age=31536000";
+                openRsvpButton.disabled = true;
+                rsvpdDialog.showModal();
             }
         });
     </script>
