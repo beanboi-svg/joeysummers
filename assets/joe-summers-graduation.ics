@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joseph Summers//Graduation Celebration//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:joe-summers-graduation-20260530@joeysummers.local
+DTSTAMP:20260429T000000Z
+DTSTART;TZID=America/Denver:20260530T170000
+DTEND;TZID=America/Denver:20260530T210000
+SUMMARY:Joseph Summers Graduation Celebration
+LOCATION:16217 Galena Court\, Brighton\, CO 80602
+DESCRIPTION:Graduation celebration for Joseph Summers.
+END:VEVENT
+END:VCALENDAR

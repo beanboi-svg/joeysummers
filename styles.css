@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+body {
+    font-family: 'Funnel Sans', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    color: #000000;
+    background: #ffffff;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 49px 24px 71px;
+}
+
+.logo-wrap img {
+    display: block;
+    width: 90px;
+    height: 50px;
+}
+
+.hero {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px 80px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 430px 470px;
+    column-gap: 140px;
+    align-items: start;
+    width: 100%;
+    max-width: 1040px;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 3px;
+}
+
+.h1-wrap {
+    width: 100%;
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 39px;
+    letter-spacing: 0;
+    font-weight: 400;
+    margin: 0;
+}
+
+.button-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 12px;
+    margin-top: 40px;
+}
+
+.calendar-menu {
+    position: relative;
+}
+
+.calendar-menu summary {
+    list-style: none;
+}
+
+.calendar-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 980px;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: #000000;
+    transition: opacity 180ms ease;
+}
+
+.button:hover::before {
+    opacity: 0.72;
+}
+
+.button:active::before {
+    opacity: 0.86;
+}
+
+.button.secondary {
+    color: #000000;
+    min-width: 141px;
+}
+
+.button.secondary::before {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.calendar-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    min-width: 158px;
+    padding: 8px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+.calendar-options a {
+    position: relative;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #000000;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.calendar-options a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transition: opacity 180ms ease;
+}
+
+.calendar-options a:hover::before {
+    opacity: 0.72;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .button::before,
+    .calendar-options a::before {
+        transition: none;
+    }
+}
+
+.image {
+    width: 470px;
+    height: 600px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    padding: 0 24px 40px;
+}
+
+.footer p {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
+    line-height: 20px;
+}
+
+@media (max-width: 980px) {
+    .banner {
+        padding-bottom: 48px;
+    }
+
+    .hero {
+        padding: 0 24px 56px;
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+        row-gap: 44px;
+        max-width: 560px;
+    }
+
+    .text {
+        padding-top: 0;
+    }
+
+    .image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 47 / 60;
+    }
+}
+
+@media (max-width: 520px) {
+    .banner {
+        padding-top: 32px;
+        padding-bottom: 40px;
+    }
+
+    h1 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+
+    .button-wrap {
+        margin-top: 32px;
+        flex-wrap: wrap;
+    }
+}
