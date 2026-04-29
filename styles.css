@@ -48,6 +48,18 @@ body {
     width: 100%;
 }
 
+.p-wrap {
+    margin-top: 16px;
+    max-width: 420px;
+}
+
+.p-wrap p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.72);
+}
+
 h1 {
     font-size: 30px;
     line-height: 39px;
