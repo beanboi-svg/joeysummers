@@ -244,7 +244,8 @@ h1 {
     line-height: 18px;
 }
 
-.rsvp-form input {
+.rsvp-form input,
+.rsvp-form select {
     width: 100%;
     min-height: 42px;
     padding: 0 13px;
@@ -261,12 +262,24 @@ h1 {
     transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.rsvp-form input:focus {
+.rsvp-form select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #000000 50%),
+        linear-gradient(135deg, #000000 50%, transparent 50%);
+    background-position: calc(100% - 18px) 18px, calc(100% - 13px) 18px;
+    background-repeat: no-repeat;
+    background-size: 5px 5px, 5px 5px;
+    padding-right: 34px;
+}
+
+.rsvp-form input:focus,
+.rsvp-form select:focus {
     border-color: rgba(0, 0, 0, 0.72);
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
 }
 
-.rsvp-form input[aria-invalid="true"] {
+.rsvp-form input[aria-invalid="true"],
+.rsvp-form select[aria-invalid="true"] {
     border-color: rgba(0, 0, 0, 0.72);
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.72);
 }

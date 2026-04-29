@@ -54,6 +54,17 @@
                 <span>Phone</span>
                 <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567" maxlength="14" pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}" required>
             </label>
+            <label>
+                <span>Guests coming with you</span>
+                <select name="guest-count" required>
+                    <option value="0">0 guests</option>
+                    <option value="1">1 guest</option>
+                    <option value="2">2 guests</option>
+                    <option value="3">3 guests</option>
+                    <option value="4">4 guests</option>
+                    <option value="5">5 guests</option>
+                </select>
+            </label>
             <p class="rsvp-error" aria-live="polite"></p>
             <button class="button" type="submit">Submit RSVP</button>
         </form>
@@ -114,12 +125,13 @@
 
             const firstNameField = rsvpForm.elements['first-name'];
             const lastNameField = rsvpForm.elements['last-name'];
+            const guestCountField = rsvpForm.elements['guest-count'];
 
             rsvpForm.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
                 field.removeAttribute('aria-invalid');
             });
 
-            const invalidField = [firstNameField, lastNameField, phoneField].find((field) => {
+            const invalidField = [firstNameField, lastNameField, phoneField, guestCountField].find((field) => {
                 return !field.validity.valid;
             });
 
