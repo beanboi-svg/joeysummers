@@ -321,8 +321,13 @@ h1 {
 
 .footer {
     display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 0 24px 40px;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    box-sizing: border-box;
 }
 
 .footer p {
@@ -330,6 +335,32 @@ h1 {
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
     line-height: 20px;
+}
+
+.venmo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+    min-height: 38px;
+    padding: 0 16px;
+    border-radius: 980px;
+    background: #008CFF;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: none;
+    transition: opacity 180ms ease;
+}
+
+.venmo-link:hover {
+    opacity: 0.72;
+}
+
+.venmo-link img {
+    display: block;
+    width: 15px;
+    height: 15px;
 }
 
 ::selection {
@@ -344,6 +375,11 @@ h1 {
 
     .hero {
         padding: 0 24px 56px;
+    }
+
+    .footer {
+        padding-right: 24px;
+        padding-left: 24px;
     }
 
     .content {
@@ -376,6 +412,11 @@ h1 {
 
     .button-wrap {
         margin-top: 32px;
+        flex-wrap: wrap;
+    }
+
+    .footer {
+        row-gap: 18px;
         flex-wrap: wrap;
     }
 
