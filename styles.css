@@ -127,6 +127,16 @@ h1 {
     opacity: 0.86;
 }
 
+.button:disabled {
+    color: rgba(0, 0, 0, 0.42);
+    cursor: not-allowed;
+}
+
+.button:disabled::before {
+    background-color: rgba(0, 0, 0, 0.12);
+    opacity: 1;
+}
+
 .button.secondary {
     color: #000000;
     min-width: 141px;
@@ -153,6 +163,9 @@ h1 {
 
 .calendar-options a {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    column-gap: 8px;
     padding: 10px 12px;
     border-radius: 8px;
     color: #000000;
@@ -161,6 +174,12 @@ h1 {
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.calendar-options img {
+    display: block;
+    width: 15px;
+    height: 15px;
 }
 
 .calendar-options a::before {
@@ -199,6 +218,10 @@ h1 {
     width: 100%;
     padding: 22px;
     box-sizing: border-box;
+}
+
+.rsvp-form[hidden] {
+    display: none;
 }
 
 .rsvp-header {
@@ -250,7 +273,7 @@ h1 {
     row-gap: 6px;
 }
 
-.rsvp-form span {
+.rsvp-form label span {
     color: rgba(0, 0, 0, 0.58);
     font-size: 13px;
     line-height: 18px;
@@ -308,11 +331,91 @@ h1 {
     justify-self: start;
 }
 
+.rsvp-submit {
+    column-gap: 8px;
+}
+
+.submit-label {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.rsvp-submit:disabled {
+    cursor: wait;
+}
+
+.submit-spinner {
+    display: none;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255, 255, 255, 0.42);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: submit-spin 760ms linear infinite;
+}
+
+.rsvp-submit[aria-busy="true"] .submit-spinner {
+    display: block;
+}
+
+@keyframes submit-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rsvp-confirmation {
+    display: grid;
+    justify-items: start;
+    row-gap: 12px;
+    padding: 26px 22px 22px;
+    box-sizing: border-box;
+}
+
+.rsvp-confirmation[hidden] {
+    display: none;
+}
+
+.confirmation-mark {
+    width: 34px;
+    height: 34px;
+}
+
+.confirmation-mark img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.rsvp-confirmation h2 {
+    margin: 4px 0 0;
+    color: #000000;
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 400;
+    letter-spacing: 0;
+    outline: none;
+}
+
+.rsvp-confirmation p {
+    max-width: 330px;
+    margin: 0 0 6px;
+    color: rgba(0, 0, 0, 0.62);
+    font-size: 15px;
+    line-height: 22px;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .button::before,
     .calendar-options a::before,
     .rsvp-form input {
         transition: none;
+    }
+
+    .submit-spinner {
+        animation-duration: 1.4s;
     }
 }
 
@@ -409,6 +512,10 @@ h1 {
         height: auto;
         aspect-ratio: 47 / 60;
     }
+
+    .invite-animation {
+        width: min(88vw, 500px);
+    }
 }
 
 @media (max-width: 520px) {
@@ -443,5 +550,63 @@ h1 {
     .rsvp-row {
         grid-template-columns: 1fr;
         row-gap: 12px;
+    }
+
+    .invitation-stage {
+        padding: 30px 18px 28px;
+    }
+
+    .invite-animation {
+        width: 100%;
+        height: 620px;
+        min-height: 620px;
+        margin-top: 0;
+    }
+
+    .card-flight {
+        width: min(76vw, 310px);
+    }
+
+    .envelope {
+        width: min(88vw, 390px);
+        height: min(54vw, 230px);
+        min-height: 182px;
+    }
+
+    .invite-shadow {
+        width: min(78vw, 340px);
+    }
+
+    @keyframes card-remove {
+        0% {
+            opacity: 0;
+            clip-path: inset(0 0 48% 0 round 6px);
+            transform: translate3d(-53%, 74px, 0) rotate(-8deg) scale(0.60);
+        }
+
+        18% {
+            opacity: 1;
+        }
+
+        56% {
+            clip-path: inset(0 0 10% 0 round 6px);
+            transform: translate3d(-54%, -148px, 0) rotate(-13deg) scale(0.76);
+        }
+
+        100% {
+            opacity: 1;
+            clip-path: inset(0 0 0 0 round 6px);
+            transform: translate3d(-50%, -106px, 0) rotate(0deg) scale(1);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mail-scene,
+    .card-flight,
+    .envelope-flap,
+    .invite-shadow {
+        animation-duration: 1ms;
+        animation-delay: 0ms;
     }
 }
