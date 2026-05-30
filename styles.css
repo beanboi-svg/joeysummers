@@ -52,6 +52,22 @@ body.map-banner-is-minimized {
     width: 100%;
 }
 
+.event-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    margin-bottom: 18px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border-radius: 980px;
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.72);
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 .p-wrap {
     margin-top: 16px;
     max-width: 420px;
@@ -739,6 +755,11 @@ h1 {
     .button-wrap {
         margin-top: 32px;
         flex-wrap: wrap;
+    }
+
+    .event-pill {
+        margin-bottom: 16px;
+        white-space: normal;
     }
 
     .footer {
