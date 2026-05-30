@@ -11,6 +11,7 @@ const rsvpEndpoint = 'https://of73u4pjsfywnjpqrib4n37q5a0nmffb.lambda-url.us-eas
 const mapBanner = document.querySelector('[data-map-banner]');
 const mapBannerToggle = document.querySelector('[data-map-banner-toggle]');
 const mapBannerStorageKey = 'mapBannerMinimized';
+const rsvpCookieDuration = 31536000;
 
 const formatPhoneNumber = (value) => {
     const digits = value.replace(/\D/g, '').slice(0, 10);
@@ -26,7 +27,15 @@ const formatPhoneNumber = (value) => {
     return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 };
 
-const isRsvpd = () => document.cookie.includes('rsvpd=true');
+const hasCookie = (name, value) => document.cookie.split('; ').includes(`${name}=${value}`);
+
+const setCookie = (name, value) => {
+    document.cookie = `${name}=${value}; max-age=${rsvpCookieDuration}; path=/`;
+};
+
+const isRsvpd = () => hasCookie('rsvpd', 'true');
+
+const hasDismissedRsvpConfirmation = () => hasCookie('rsvpConfirmationDismissed', 'true');
 
 const getStoredMapBannerState = () => {
     try {
@@ -66,6 +75,21 @@ const showConfirmation = () => {
     rsvpConfirmation.querySelector('h2').focus();
 };
 
+const showRsvpForm = () => {
+    rsvpForm.hidden = false;
+    rsvpConfirmation.hidden = true;
+    rsvpForm.reset();
+    rsvpError.textContent = '';
+    setLoading(false);
+    rsvpForm.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
+        field.removeAttribute('aria-invalid');
+    });
+};
+
+const setRsvpButtonState = () => {
+    openRsvpButton.classList.toggle('is-rsvpd', isRsvpd());
+};
+
 const setLoading = (isLoading) => {
     submitRsvpButton.disabled = isLoading;
     submitRsvpButton.setAttribute('aria-busy', String(isLoading));
@@ -76,26 +100,33 @@ const setLoading = (isLoading) => {
 };
 
 openRsvpButton.addEventListener('click', () => {
-    rsvpForm.hidden = false;
-    rsvpConfirmation.hidden = true;
-    rsvpForm.reset();
-    rsvpError.textContent = '';
-    setLoading(false);
-    rsvpForm.querySelectorAll('[aria-invalid="true"]').forEach((field) => {
-        field.removeAttribute('aria-invalid');
-    });
+    if (isRsvpd()) {
+        rsvpDialog.showModal();
+        showConfirmation();
+        return;
+    }
+
+    showRsvpForm();
     rsvpDialog.showModal();
     rsvpDialog.querySelector('input').focus();
 });
 
 closeRsvpButtons.forEach((button) => {
     button.addEventListener('click', () => {
+        if (!rsvpConfirmation.hidden && isRsvpd()) {
+            setCookie('rsvpConfirmationDismissed', 'true');
+        }
+
         rsvpDialog.close();
     });
 });
 
 rsvpDialog.addEventListener('click', (event) => {
     if (event.target === rsvpDialog) {
+        if (!rsvpConfirmation.hidden && isRsvpd()) {
+            setCookie('rsvpConfirmationDismissed', 'true');
+        }
+
         rsvpDialog.close();
     }
 });
@@ -111,8 +142,9 @@ phoneField.addEventListener('input', () => {
     phoneField.value = formatPhoneNumber(phoneField.value);
 });
 
-if (isRsvpd()) {
-    openRsvpButton.disabled = true;
+setRsvpButtonState();
+
+if (isRsvpd() && !hasDismissedRsvpConfirmation()) {
     rsvpDialog.showModal();
     showConfirmation();
 }
@@ -159,8 +191,9 @@ rsvpForm.addEventListener('submit', async (event) => {
             body: JSON.stringify(toSend),
         });
 
-        document.cookie = 'rsvpd=true; max-age=31536000';
-        openRsvpButton.disabled = true;
+        setCookie('rsvpd', 'true');
+        setCookie('rsvpConfirmationDismissed', 'false');
+        setRsvpButtonState();
         showConfirmation();
     } catch (error) {
         rsvpError.textContent = 'Something went wrong. Please try submitting your RSVP again.';

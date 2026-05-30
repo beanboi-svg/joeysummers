@@ -96,6 +96,21 @@ h1 {
     margin-top: 40px;
 }
 
+.rsvp-open-button {
+    column-gap: 7px;
+}
+
+.rsvp-button-check {
+    display: none;
+    width: 14px;
+    height: 14px;
+    filter: invert(1);
+}
+
+.rsvp-open-button.is-rsvpd .rsvp-button-check {
+    display: block;
+}
+
 .calendar-menu {
     position: relative;
 }
