@@ -8,6 +8,9 @@ const phoneField = rsvpForm.elements.phone;
 const submitRsvpButton = rsvpForm.querySelector('button[type="submit"]');
 const submitRsvpLabel = submitRsvpButton.querySelector('.submit-label');
 const rsvpEndpoint = 'https://of73u4pjsfywnjpqrib4n37q5a0nmffb.lambda-url.us-east-1.on.aws';
+const mapBanner = document.querySelector('[data-map-banner]');
+const mapBannerToggle = document.querySelector('[data-map-banner-toggle]');
+const mapBannerStorageKey = 'mapBannerMinimized';
 
 const formatPhoneNumber = (value) => {
     const digits = value.replace(/\D/g, '').slice(0, 10);
@@ -24,6 +27,38 @@ const formatPhoneNumber = (value) => {
 };
 
 const isRsvpd = () => document.cookie.includes('rsvpd=true');
+
+const getStoredMapBannerState = () => {
+    try {
+        return localStorage.getItem(mapBannerStorageKey) === 'true';
+    } catch (error) {
+        return false;
+    }
+};
+
+const storeMapBannerState = (isMinimized) => {
+    try {
+        localStorage.setItem(mapBannerStorageKey, String(isMinimized));
+    } catch (error) {
+        return;
+    }
+};
+
+const setMapBannerMinimized = (isMinimized) => {
+    mapBanner.classList.toggle('is-minimized', isMinimized);
+    document.body.classList.toggle('map-banner-is-minimized', isMinimized);
+    mapBannerToggle.setAttribute('aria-expanded', String(!isMinimized));
+    mapBannerToggle.setAttribute('aria-label', isMinimized ? 'Expand directions banner' : 'Minimize directions banner');
+};
+
+setMapBannerMinimized(getStoredMapBannerState());
+
+mapBannerToggle.addEventListener('click', () => {
+    const isMinimized = !mapBanner.classList.contains('is-minimized');
+
+    setMapBannerMinimized(isMinimized);
+    storeMapBannerState(isMinimized);
+});
 
 const showConfirmation = () => {
     rsvpForm.hidden = true;
